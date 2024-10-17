@@ -26,16 +26,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.MovieList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(
@@ -90,13 +95,23 @@ fun HomeContent(
                     ) {
                         Row {
                             AsyncImage(
-                                modifier = Modifier.height(100.dp).width(100.dp),
+                                modifier = Modifier.weight(1.0f),
                                 model = "https://image.tmdb.org/t/p/w500${movie?.posterPath}",
-                                contentDescription = movie?.title
+                                contentDescription = movie?.title,
+                                alignment = Alignment.Center
                             )
-                            Column {
-                                Text(movie?.title ?: "")
-                                Text(movie?.overview ?: "")
+                            Column (
+                                modifier = Modifier.padding(16.dp).weight(2.0f)
+                            ){
+                                Text(
+                                    movie?.title ?: "",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    movie?.overview ?: "",
+                                    Modifier.padding(top = 16.dp)
+                                )
                             }
                         }
 
@@ -122,7 +137,7 @@ fun HomeContent(
         if (state is HomeState.Loading) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
+                contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
             }
@@ -142,31 +157,46 @@ fun LoadingItem() {
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreenPreview() {
-//    HomeContent(
-//        state = HomeState.Success(
-//            data = MovieList(
-//                movies = listOf(
-//                    Movie(
-//                        id = 1,
-//                        overview = "Overview",
-//                        posterPath = "",
-//                        title = "",
-//                        releaseDate = ""
-//                    ),
-//                    Movie(
-//                        id = 1,
-//                        overview = "Overview",
-//                        posterPath = "",
-//                        title = "",
-//                        releaseDate = ""
-//                    )
-//                )
-//            )
-//        ),
-//        navToDetails = {}
-//    )
-//}
+// A function that simulates static PagingData
+fun fakeMovieFlow(): Flow<PagingData<Movie>> {
+    val movies = listOf(
+        Movie(1, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.","https://image.tmdb.org/t/p/w500/lqoMzCcZYEFK729d6qzt349fB4o.jpg","", "Inception"),
+        Movie(2, "","","", "The Dark Knight"),
+        Movie(3, "","","", "Interstellar")
+    )
+    return flowOf(PagingData.from(movies))
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+
+    HomeContent(
+        state = HomeState.Success(
+            data = MovieList(
+                movies = listOf(
+                    Movie(
+                        id = 1,
+                        overview = "Overview",
+                        posterPath = "",
+                        title = "",
+                        releaseDate = ""
+                    ),
+                    Movie(
+                        id = 1,
+                        overview = "Overview",
+                        posterPath = "",
+                        title = "",
+                        releaseDate = ""
+                    )
+                ),
+                page = 1,
+                totalPages = 1,
+                totalResults = 10
+            )
+        ),
+        navToDetails = {},
+        movies = fakeMovieFlow().collectAsLazyPagingItems()
+    )
+}
 
