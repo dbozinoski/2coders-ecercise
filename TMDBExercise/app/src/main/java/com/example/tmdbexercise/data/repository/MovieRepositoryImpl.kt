@@ -6,10 +6,14 @@ import com.example.tmdbexercise.data.datasource.api.ApiService
 import com.example.tmdbexercise.data.datasource.api.paging.MoviePagingSource
 import com.example.tmdbexercise.data.datasource.api.exception.ApiResponseHandler
 import com.example.tmdbexercise.data.model.Movie
+import com.example.tmdbexercise.data.repository.datasource.FavouriteMovieLocalDataSource
 import com.example.tmdbexercise.domain.repository.MovieRepository
 import javax.inject.Inject
 
-class MovieRepositoryImpl @Inject constructor(private val apiService: ApiService) : MovieRepository {
+class MovieRepositoryImpl @Inject constructor(
+    private val apiService: ApiService,
+    private val favouriteMovieLocalDataSource: FavouriteMovieLocalDataSource
+) : MovieRepository {
     private val TAG = "MovieRepositoryImpl"
 
     private val responseHandler = ApiResponseHandler()
@@ -26,5 +30,13 @@ class MovieRepositoryImpl @Inject constructor(private val apiService: ApiService
 
     override fun getMovies(): PagingSource<Int, Movie> {
         return MoviePagingSource(apiService)
+    }
+
+    override suspend fun saveMovieToDB(movie: Movie) {
+        favouriteMovieLocalDataSource.saveMovieToDB(movie)
+    }
+
+    override suspend fun removeMovieFromDB(movieId: Int) {
+        favouriteMovieLocalDataSource.removeMovieFromDB(movieId)
     }
 }
