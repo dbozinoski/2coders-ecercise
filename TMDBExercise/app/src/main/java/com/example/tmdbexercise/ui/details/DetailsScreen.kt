@@ -11,20 +11,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.tmdbexercise.data.model.Movie
 
 @Composable
 fun DetailsScreen(
@@ -32,17 +38,41 @@ fun DetailsScreen(
 ) {
     val state by viewModel.state.collectAsState()
     DetailsContent(
-        state = state
+        state = state,
+        viewModel = viewModel
     )
 }
 
 @Composable
 fun DetailsContent(
-    state: DetailsState
+    state: DetailsState,
+    viewModel: DetailsViewModel
 ) {
+
+    var showErrorDialog by remember { mutableStateOf(false) }
+
+    val movie = if (state is DetailsState.Success) {
+        state.movie
+    } else {
+        null // The movie is null if state is not Success
+    }
+
+    // Observe the isFavorite LiveData from the ViewModel
+    val isFavorite by viewModel.isFavorite.observeAsState(initial = false)
+
+    // Check if the movie is already a favorite using LaunchedEffect
+    LaunchedEffect(movie) {
+        movie?.let {
+            // Query the ViewModel to check if the movie is already a favorite
+            viewModel.isMovieFavorite(movie.id)
+        }
+    }
+
+    // UI layout
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        // Top row with favorite and search buttons
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -51,10 +81,22 @@ fun DetailsContent(
         ) {
             Column {
                 IconButton(
-                    onClick = {}
+                    onClick = {
+                        if (movie != null) {
+                            if (isFavorite) {
+                                viewModel.removeMovieFromFavourites(movie.id)
+                            } else {
+                                viewModel.saveMovie(movie)
+                            }
+                        }
+                    }
                 ) {
                     Icon(
-                        Icons.Default.Favorite,
+                        imageVector = if (isFavorite) {
+                            Icons.Default.Favorite
+                        } else {
+                            Icons.Default.FavoriteBorder
+                        },
                         contentDescription = "Favorite",
                     )
                 }
@@ -68,46 +110,80 @@ fun DetailsContent(
             }
         }
 
-        if (state is DetailsState.Success) {
+        // If movie is available, display its details
+        movie?.let { movie ->
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text(state.movie.title ?: "")
+                Text(movie.title ?: "")
                 AsyncImage(
-                    modifier = Modifier.height(100.dp).width(100.dp),
-                    model = "https://image.tmdb.org/t/p/w500${state.movie.posterPath}",
-                    contentDescription = state.movie.title
+                    modifier = Modifier
+                        .height(100.dp)
+                        .width(100.dp),
+                    model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                    contentDescription = movie.title
                 )
-                Text(state.movie.overview ?: "")
+                Text(movie.overview ?: "")
             }
         }
-        if (state is DetailsState.Error) {
 
-        }
-        if (state is DetailsState.Loading) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
-            ) {
-                CircularProgressIndicator()
+        // Loading and Error states
+        when (state) {
+            is DetailsState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
+
+            is DetailsState.Error -> {
+                showErrorDialog = true
+            }
+
+            else -> Unit // Do nothing for other states
+        }
+
+        // Show error dialog if state is Error
+        if (showErrorDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    showErrorDialog = false // Close the dialog on dismiss
+                },
+                title = {
+                    Text(text = "Error")
+                },
+                text = {
+                    Text(text = (state as? DetailsState.Error)?.message ?: "An unknown error occurred")
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            showErrorDialog = false // Close the dialog on confirm
+                        }
+                    ) {
+                        Text("OK")
+                    }
+                }
+            )
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DetailsScreenPreview() {
-    DetailsContent(
-        state = DetailsState.Success(
-            movie = Movie(
-                id = 1,
-                overview = "Overview",
-                posterPath = "",
-                title = "",
-                releaseDate = ""
-
-            )
-        )
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DetailsScreenPreview() {
+//    DetailsContent(
+//        state = DetailsState.Success(
+//            movie = Movie(
+//                id = 1,
+//                overview = "Overview",
+//                posterPath = "",
+//                title = "",
+//                releaseDate = ""
+//
+//            )
+//        )
+//    )
+//}

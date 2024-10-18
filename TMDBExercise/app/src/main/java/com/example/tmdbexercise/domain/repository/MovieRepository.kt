@@ -9,4 +9,5 @@ interface MovieRepository {
     suspend fun getMovie(movieId: Int): Result<Movie>?
     suspend fun saveMovieToDB(movie: Movie)
     suspend fun removeMovieFromDB(movieId: Int)
+    suspend fun getMoviesFromDB(): List<Movie>
 }

@@ -39,4 +39,10 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun removeMovieFromDB(movieId: Int) {
         favouriteMovieLocalDataSource.removeMovieFromDB(movieId)
     }
+
+    override suspend fun getMoviesFromDB(): List<Movie> {
+        return favouriteMovieLocalDataSource.getMoviesFromDB()
+    }
+
+
 }
