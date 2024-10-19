@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.tmdbexercise.R
+import com.example.tmdbexercise.common.Constants
 import com.example.tmdbexercise.common.LoadingItem
 import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.MovieList
@@ -91,7 +94,7 @@ fun HomeContent(
                     .align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = "Popular Movies",
+                    text = stringResource(R.string.home_screen_title),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -133,7 +136,7 @@ fun HomeContent(
                                 .fillMaxHeight()
                                 .align(Alignment.CenterVertically)
                                 .padding(start = 16.dp),
-                            model = "https://image.tmdb.org/t/p/w500${movie?.posterPath}",
+                            model = "${Constants.POSTER_URL}${movie?.posterPath}",
                             contentDescription = movie?.title,
                             alignment = Alignment.Center
                         )
@@ -143,12 +146,12 @@ fun HomeContent(
                                 .weight(2.0f)
                         ) {
                             Text(
-                                movie?.title ?: "",
+                                movie?.title ?: stringResource(R.string.no_title_available),
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                movie?.overview ?: "",
+                                movie?.overview ?: stringResource(R.string.no_description_available),
                                 Modifier.padding(top = 16.dp)
                             )
                         }
@@ -189,12 +192,12 @@ fun HomeContent(
                     showErrorDialog = false // Close the dialog on dismiss
                 },
                 title = {
-                    Text(text = "Error")
+                    Text(text = stringResource(R.string.error_alert_dialog_title))
                 },
                 text = {
                     Text(
-                        text = (state as? DetailsState.Error)?.message
-                            ?: "An unknown error occurred"
+                        text = (state as? HomeState.Error)?.message
+                            ?: stringResource(R.string.error_alert_dialog_description)
                     )
                 },
                 confirmButton = {
@@ -203,7 +206,7 @@ fun HomeContent(
                             showErrorDialog = false // Close the dialog on confirm
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.error_alert_dialog_ok_button_text))
                     }
                 }
             )
@@ -228,39 +231,39 @@ fun fakeMovieFlow(): Flow<PagingData<Movie>> {
     return flowOf(PagingData.from(movies))
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreenPreview() {
-//
-//    HomeContent(
-//        state = HomeState.Success(
-//            data = MovieList(
-//                movies = listOf(
-//                    Movie(
-//                        id = 1,
-//                        overview = "Overview",
-//                        posterPath = "",
-//                        title = "",
-//                        releaseDate = ""
-//                    ),
-//                    Movie(
-//                        id = 1,
-//                        overview = "Overview",
-//                        posterPath = "",
-//                        title = "",
-//                        releaseDate = ""
-//                    )
-//                ),
-//                page = 1,
-//                totalPages = 1,
-//                totalResults = 10
-//            )
-//        ),
-//        navToDetails = {},
-//        movies = fakeMovieFlow().collectAsLazyPagingItems(),
-//        navToSearch = {}
-//    )
-//}
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+
+    HomeContent(
+        state = HomeState.Success(
+            data = MovieList(
+                movies = listOf(
+                    Movie(
+                        id = 1,
+                        overview = "Overview",
+                        posterPath = "",
+                        title = "",
+                        releaseDate = ""
+                    ),
+                    Movie(
+                        id = 1,
+                        overview = "Overview",
+                        posterPath = "",
+                        title = "",
+                        releaseDate = ""
+                    )
+                ),
+                page = 1,
+                totalPages = 1,
+                totalResults = 10
+            )
+        ),
+        navToDetails = {},
+        movies = fakeMovieFlow().collectAsLazyPagingItems(),
+        navToSearch = {}
+    )
+}
 
 @Preview
 @Composable

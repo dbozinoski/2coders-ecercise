@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -28,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.tmdbexercise.R
+import com.example.tmdbexercise.common.Constants
 
 @Composable
 fun DetailsScreen(
@@ -95,7 +97,7 @@ fun DetailsContent(
                     .align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = "Movie Details",
+                    text = stringResource(R.string.details_screen_title),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -139,7 +141,7 @@ fun DetailsContent(
                     modifier = Modifier
                         .padding(bottom = 20.dp)
                         .align(Alignment.CenterHorizontally),
-                    text = movie.title ?: "",
+                    text = movie.title ?: stringResource(R.string.no_title_available),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -148,14 +150,14 @@ fun DetailsContent(
                         .height(300.dp)
                         .width(300.dp)
                         .align(Alignment.CenterHorizontally),
-                    model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                    model = "${Constants.POSTER_URL}${movie.posterPath}",
                     contentDescription = movie.title
                 )
                 Text(
                     modifier = Modifier
-                    .padding(top = 20.dp)
-                    .align(Alignment.CenterHorizontally),
-                    text = movie.overview ?: "",
+                        .padding(top = 20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    text = movie.overview ?: stringResource(R.string.no_description_available),
                     textAlign = TextAlign.Justify
                 )
             }
@@ -186,10 +188,10 @@ fun DetailsContent(
                     showErrorDialog = false // Close the dialog on dismiss
                 },
                 title = {
-                    Text(text = "Error")
+                    Text(text = stringResource(R.string.error_alert_dialog_title))
                 },
                 text = {
-                    Text(text = (state as? DetailsState.Error)?.message ?: "An unknown error occurred")
+                    Text(text = (state as? DetailsState.Error)?.message ?: stringResource(R.string.error_alert_dialog_description))
                 },
                 confirmButton = {
                     Button(
@@ -197,7 +199,7 @@ fun DetailsContent(
                             showErrorDialog = false // Close the dialog on confirm
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.error_alert_dialog_ok_button_text))
                     }
                 }
             )

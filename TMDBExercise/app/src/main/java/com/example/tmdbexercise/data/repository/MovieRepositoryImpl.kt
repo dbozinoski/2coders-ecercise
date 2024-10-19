@@ -3,10 +3,9 @@ package com.example.tmdbexercise.data.repository
 import androidx.paging.PagingSource
 import com.example.tmdbexercise.common.Constants
 import com.example.tmdbexercise.data.datasource.api.ApiService
-import com.example.tmdbexercise.data.datasource.api.paging.MoviePagingSource
 import com.example.tmdbexercise.data.datasource.api.exception.ApiResponseHandler
+import com.example.tmdbexercise.data.datasource.api.paging.MoviePagingSource
 import com.example.tmdbexercise.data.datasource.api.paging.SearchMoviePagingSource
-import com.example.tmdbexercise.data.datasource.api.paging.SearchResultPagingSource
 import com.example.tmdbexercise.data.datasource.api.paging.SearchTvPagingSource
 import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.TV
@@ -21,11 +20,6 @@ class MovieRepositoryImpl @Inject constructor(
     private val TAG = "MovieRepositoryImpl"
 
     private val responseHandler = ApiResponseHandler()
-
-//    override suspend fun getMovies(): Result<MovieList>? {
-//        val response = apiService.getPopularMovies(Constants.API_KEY)
-//        return responseHandler.handleResponse(response, TAG)
-//    }
 
     override suspend fun getMovie(movieId: Int): Result<Movie>? {
         val  response = apiService.getMovie(movieId, Constants.API_KEY)

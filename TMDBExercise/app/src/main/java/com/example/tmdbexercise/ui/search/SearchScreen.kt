@@ -1,7 +1,6 @@
 package com.example.tmdbexercise.ui.search
 
 import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,10 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -25,7 +20,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
@@ -38,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,6 +42,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.tmdbexercise.R
+import com.example.tmdbexercise.common.Constants
 import com.example.tmdbexercise.common.LoadingItem
 import com.example.tmdbexercise.data.datasource.api.paging.SearchResult
 import com.example.tmdbexercise.data.model.Movie
@@ -126,7 +123,7 @@ fun SearchContent(
                     .align(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = "Search",
+                    text = stringResource(R.string.search_screen_title),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -159,9 +156,9 @@ fun SearchContent(
             ) {
                 TextField(
                     value = when (selectedOption) {
-                        SearchType.Movies -> "Search Movie"
-                        SearchType.TV -> "Search TV"
-                        else -> "Search Movie"
+                        SearchType.Movies -> stringResource(R.string.dropdown_item_search_movie)
+                        SearchType.TV -> stringResource(R.string.dropdown_item_search_tv)
+                        else -> stringResource(R.string.dropdown_item_search_movie)
                     },
                     onValueChange = {},
                     readOnly = true,
@@ -176,15 +173,19 @@ fun SearchContent(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    listOf("Search Movie", "Search TV").forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                onOptionSelected(option)  // Pass selected option to parent
-                                expanded = false
-                            }
-                        )
-                    }
+                    listOf(
+                        stringResource(R.string.dropdown_item_search_movie),
+                        stringResource(R.string.dropdown_item_search_tv)
+                    )
+                        .forEach { option ->
+                            DropdownMenuItem(
+                                text = { Text(option) },
+                                onClick = {
+                                    onOptionSelected(option)  // Pass selected option to parent
+                                    expanded = false
+                                }
+                            )
+                        }
                 }
             }
 
@@ -194,7 +195,7 @@ fun SearchContent(
             TextField(
                 value = inputText,
                 onValueChange = onTextChange,  // Update input text
-                label = { Text("Search") },
+                label = { Text(stringResource(R.string.text_input_search_hint)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp)
@@ -218,7 +219,7 @@ fun SearchContent(
                         TVCard(item.tv, navToDetails)
                     }
                 } else {
-                    Text("Nothing to see here")
+                    Text(stringResource(R.string.search_list_empty_text))
                 }
             }
             items.apply {
@@ -241,7 +242,7 @@ fun SearchContent(
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 16.dp),
-                text = "Search for movies or TV shows"
+                text = stringResource(R.string.initial_state_text)
             )
         }
 
@@ -264,22 +265,21 @@ fun SearchContent(
                     showErrorDialog = false // Close the dialog on dismiss
                 },
                 title = {
-                    Text(text = "Error")
+                    Text(text = stringResource(R.string.error_alert_dialog_title))
                 },
                 text = {
                     Text(
-                        text = (state as? DetailsState.Error)?.message
-                            ?: "An unknown error occurred"
+                        text = (state as? SearchState.Error)?.message
+                            ?: stringResource(R.string.error_alert_dialog_description)
                     )
                 },
                 confirmButton = {
                     Button(
                         onClick = {
-                            Log.d("Dialog", "OK clicked")
                             showErrorDialog = false // Close the dialog on confirm
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.error_alert_dialog_ok_button_text))
                     }
                 }
             )
@@ -301,7 +301,7 @@ fun MovieCard(movie: Movie, navToDetails: (Int) -> Unit) {
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically)
                     .padding(start = 16.dp),
-                model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                model = "${Constants.POSTER_URL}${movie.posterPath}",
                 contentDescription = movie.title,
                 alignment = Alignment.Center
             )
@@ -311,12 +311,12 @@ fun MovieCard(movie: Movie, navToDetails: (Int) -> Unit) {
                     .weight(2.0f)
             ) {
                 Text(
-                    movie.title ?: "Untitled",
+                    movie.title ?: stringResource(R.string.no_title_available),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    movie.overview ?: "No description available",
+                    movie.overview ?: stringResource(R.string.no_description_available),
                     Modifier.padding(top = 16.dp)
                 )
             }
@@ -338,7 +338,7 @@ fun TVCard(tv: TV, navToDetails: (Int) -> Unit) {
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically)
                     .padding(start = 16.dp),
-                model = "https://image.tmdb.org/t/p/w500${tv.posterPath}",
+                model = "${Constants.POSTER_URL}${tv.posterPath}",
                 contentDescription = tv.name,
                 alignment = Alignment.Center
             )
@@ -349,12 +349,12 @@ fun TVCard(tv: TV, navToDetails: (Int) -> Unit) {
                     .weight(2.0f)
             ) {
                 Text(
-                    tv.name ?: "Untitled",
+                    tv.name ?: stringResource(R.string.no_title_available),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    tv.overview ?: "No description available",
+                    tv.overview ?: stringResource(R.string.no_description_available),
                     Modifier.padding(top = 16.dp)
                 )
             }
