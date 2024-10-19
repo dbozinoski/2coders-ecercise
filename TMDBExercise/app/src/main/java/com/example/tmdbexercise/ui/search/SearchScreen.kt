@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -66,8 +67,7 @@ fun SearchScreen(
         navToDetails = navToDetails,
         items = items,
         selectedOption = selectedOption,
-        onOptionSelected = {
-            option ->
+        onOptionSelected = { option ->
             selectedOption =
                 when (option) {
                     "Search Movie" -> SearchType.Movies
@@ -76,7 +76,7 @@ fun SearchScreen(
                 }
             viewModel.setSearchType(selectedOption)
             viewModel.searchMovies(inputText)
-                           },
+        },
         inputText = inputText,
         onTextChange = { text ->
             inputText = text // Update input text
@@ -122,7 +122,7 @@ fun SearchContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-        ){
+        ) {
             // Dropdown for selecting options
             ExposedDropdownMenuBox(
                 expanded = expanded,
@@ -141,7 +141,9 @@ fun SearchContent(
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
-                    modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
@@ -166,7 +168,8 @@ fun SearchContent(
                 value = inputText,
                 onValueChange = onTextChange,  // Update input text
                 label = { Text("Search") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 20.dp)
             )
         }
@@ -178,7 +181,7 @@ fun SearchContent(
         ) {
             items(
                 count = items.itemCount,
-                key = {it}
+                key = { it }
             ) { index ->
                 val item = items[index]
                 if (item != null) {
@@ -187,7 +190,7 @@ fun SearchContent(
                     } else if (item is SearchResult.TVResult) {
                         TVCard(item.tv, navToDetails)
                     }
-                } else{
+                } else {
                     Text("Nothing to see here")
                 }
             }
@@ -205,9 +208,12 @@ fun SearchContent(
 
         }
 
-        if(state is SearchState.Initial){
+        if (state is SearchState.Initial) {
             Text(
-                modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally).padding(top = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 16.dp),
                 text = "Search for movies or TV shows"
             )
         }
@@ -234,7 +240,10 @@ fun SearchContent(
                     Text(text = "Error")
                 },
                 text = {
-                    Text(text = (state as? DetailsState.Error)?.message ?: "An unknown error occurred")
+                    Text(
+                        text = (state as? DetailsState.Error)?.message
+                            ?: "An unknown error occurred"
+                    )
                 },
                 confirmButton = {
                     Button(
@@ -260,18 +269,19 @@ fun MovieCard(movie: Movie, navToDetails: (Int) -> Unit) {
     ) {
         Row {
             GlideImage(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 16.dp),
                 model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                 contentDescription = movie.title,
                 alignment = Alignment.Center
-                )
-//            AsyncImage(
-//                modifier = Modifier.weight(1.0f),
-//                model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
-//                contentDescription = movie.title,
-//                alignment = Alignment.Center
-//            )
+            )
             Column(
-                modifier = Modifier.padding(16.dp).weight(2.0f)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .weight(2.0f)
             ) {
                 Text(
                     movie.title ?: "Untitled",
@@ -296,18 +306,20 @@ fun TVCard(tv: TV, navToDetails: (Int) -> Unit) {
     ) {
         Row {
             GlideImage(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 16.dp),
                 model = "https://image.tmdb.org/t/p/w500${tv.posterPath}",
                 contentDescription = tv.name,
                 alignment = Alignment.Center
             )
-//            AsyncImage(
-//                modifier = Modifier.weight(1.0f),
-//                model = "https://image.tmdb.org/t/p/w500${tv.posterPath}",
-//                contentDescription = tv.name,
-//                alignment = Alignment.Center
-//            )
+
             Column(
-                modifier = Modifier.padding(16.dp).weight(2.0f)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .weight(2.0f)
             ) {
                 Text(
                     tv.name ?: "Untitled",

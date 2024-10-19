@@ -28,7 +28,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -103,13 +106,13 @@ fun DetailsContent(
                     )
                 }
             }
-            Column {
-                IconButton(
-                    onClick = {}
-                ) {
-                    Icon(Icons.Default.Search, contentDescription = "Search")
-                }
-            }
+//            Column {
+//                IconButton(
+//                    onClick = {}
+//                ) {
+//                    Icon(Icons.Default.Search, contentDescription = "Search")
+//                }
+//            }
         }
 
         // If movie is available, display its details
@@ -117,22 +120,29 @@ fun DetailsContent(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text(movie.title ?: "")
+                Text(
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    text = movie.title ?: "",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
                 GlideImage(
                     modifier = Modifier
-                        .height(100.dp)
-                        .width(100.dp),
+                        .height(300.dp)
+                        .width(300.dp)
+                        .align(Alignment.CenterHorizontally),
                     model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                     contentDescription = movie.title
                 )
-//                AsyncImage(
-//                    modifier = Modifier
-//                        .height(100.dp)
-//                        .width(100.dp),
-//                    model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
-//                    contentDescription = movie.title
-//                )
-                Text(movie.overview ?: "")
+                Text(
+                    modifier = Modifier
+                    .padding(top = 20.dp)
+                    .align(Alignment.CenterHorizontally),
+                    text = movie.overview ?: "",
+                    textAlign = TextAlign.Justify
+                )
             }
         }
 

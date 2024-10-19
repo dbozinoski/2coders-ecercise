@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,57 +89,63 @@ fun HomeContent(
         }
 
 //        if (state is HomeState.Success) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                items(
-                    count = movies.itemCount,
-                    key = movies.itemKey{it.id}
-                ) { index ->
-                    val movie = movies[index]
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {navToDetails(movie?.id ?: 0)}
-                    ) {
-                        Row {
-                            GlideImage(
-                                modifier = Modifier.weight(1.0f).fillMaxHeight().align(Alignment.CenterVertically).padding(start = 16.dp),
-                                model = "https://image.tmdb.org/t/p/w500${movie?.posterPath}",
-                                contentDescription = movie?.title,
-                                alignment = Alignment.Center
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(16.dp)
+        ) {
+            items(
+                count = movies.itemCount,
+                key = movies.itemKey { it.id }
+            ) { index ->
+                val movie = movies[index]
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { navToDetails(movie?.id ?: 0) }
+                ) {
+                    Row {
+                        GlideImage(
+                            modifier = Modifier
+                                .weight(1.0f)
+                                .fillMaxHeight()
+                                .align(Alignment.CenterVertically)
+                                .padding(start = 16.dp),
+                            model = "https://image.tmdb.org/t/p/w500${movie?.posterPath}",
+                            contentDescription = movie?.title,
+                            alignment = Alignment.Center
+                        )
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .weight(2.0f)
+                        ) {
+                            Text(
+                                movie?.title ?: "",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
                             )
-                            Column (
-                                modifier = Modifier.padding(16.dp).weight(2.0f)
-                            ){
-                                Text(
-                                    movie?.title ?: "",
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Text(
-                                    movie?.overview ?: "",
-                                    Modifier.padding(top = 16.dp)
-                                )
-                            }
-                        }
-
-                    }
-                }
-                movies.apply {
-                    when {
-                        loadState.refresh is LoadState.Loading -> {
-                            item { LoadingItem() }
-                        }
-
-                        loadState.append is LoadState.Loading -> {
-                            item { LoadingItem() }
+                            Text(
+                                movie?.overview ?: "",
+                                Modifier.padding(top = 16.dp)
+                            )
                         }
                     }
-                }
 
+                }
             }
+            movies.apply {
+                when {
+                    loadState.refresh is LoadState.Loading -> {
+                        item { LoadingItem() }
+                    }
+
+                    loadState.append is LoadState.Loading -> {
+                        item { LoadingItem() }
+                    }
+                }
+            }
+
+        }
 //        }
         if (state is HomeState.Error) {
             showErrorDialog = true
@@ -162,7 +169,10 @@ fun HomeContent(
                     Text(text = "Error")
                 },
                 text = {
-                    Text(text = (state as? DetailsState.Error)?.message ?: "An unknown error occurred")
+                    Text(
+                        text = (state as? DetailsState.Error)?.message
+                            ?: "An unknown error occurred"
+                    )
                 },
                 confirmButton = {
                     Button(
@@ -179,13 +189,18 @@ fun HomeContent(
 }
 
 
-
 // A function that simulates static PagingData
 fun fakeMovieFlow(): Flow<PagingData<Movie>> {
     val movies = listOf(
-        Movie(1, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.","https://image.tmdb.org/t/p/w500/lqoMzCcZYEFK729d6qzt349fB4o.jpg","", "Inception"),
-        Movie(2, "","","", "The Dark Knight"),
-        Movie(3, "","","", "Interstellar")
+        Movie(
+            1,
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "https://image.tmdb.org/t/p/w500/lqoMzCcZYEFK729d6qzt349fB4o.jpg",
+            "",
+            "Inception"
+        ),
+        Movie(2, "", "", "", "The Dark Knight"),
+        Movie(3, "", "", "", "Interstellar")
     )
     return flowOf(PagingData.from(movies))
 }
