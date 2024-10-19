@@ -4,10 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.tmdbexercise.data.model.Movie
-import com.example.tmdbexercise.data.model.MovieList
 import com.example.tmdbexercise.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetMoviesUseCase @Inject constructor(

@@ -1,6 +1,5 @@
 package com.example.tmdbexercise.ui.search
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,6 @@ import com.example.tmdbexercise.common.LoadingItem
 import com.example.tmdbexercise.data.datasource.api.paging.SearchResult
 import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.TV
-import com.example.tmdbexercise.ui.details.DetailsState
 import com.example.tmdbexercise.ui.search.SearchViewModel.SearchType
 
 @Composable
@@ -216,7 +216,7 @@ fun SearchContent(
                     if (item is SearchResult.MovieResult) {
                         MovieCard(item.movie, navToDetails)
                     } else if (item is SearchResult.TVResult) {
-                        TVCard(item.tv, navToDetails)
+                        TVCard(item.tv)
                     }
                 } else {
                     Text(stringResource(R.string.search_list_empty_text))
@@ -300,7 +300,8 @@ fun MovieCard(movie: Movie, navToDetails: (Int) -> Unit) {
                     .weight(1.0f)
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically)
-                    .padding(start = 16.dp),
+                    .padding(start = 16.dp)
+                    .clip(RoundedCornerShape(10.dp)),
                 model = "${Constants.POSTER_URL}${movie.posterPath}",
                 contentDescription = movie.title,
                 alignment = Alignment.Center
@@ -326,10 +327,10 @@ fun MovieCard(movie: Movie, navToDetails: (Int) -> Unit) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun TVCard(tv: TV, navToDetails: (Int) -> Unit) {
+fun TVCard(tv: TV) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        onClick = { navToDetails(tv.id) }
+        onClick = {}
     ) {
         Row {
             GlideImage(
@@ -337,7 +338,8 @@ fun TVCard(tv: TV, navToDetails: (Int) -> Unit) {
                     .weight(1.0f)
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically)
-                    .padding(start = 16.dp),
+                    .padding(start = 16.dp)
+                    .clip(RoundedCornerShape(10.dp)),
                 model = "${Constants.POSTER_URL}${tv.posterPath}",
                 contentDescription = tv.name,
                 alignment = Alignment.Center

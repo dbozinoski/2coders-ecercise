@@ -25,11 +25,13 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
     private val TAG = "SearchViewModel"
 
+    // State to hold the current state
     private val _state = MutableStateFlow<SearchState>(SearchState.Initial)
     val state: StateFlow<SearchState> = _state.asStateFlow()
 
     // State to hold the current query
     private val _query = MutableStateFlow<String>("")
+    // State to hold the current search type
     private val _searchType = MutableStateFlow<SearchType>(SearchType.Movies) // Default to Movies
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)

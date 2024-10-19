@@ -9,4 +9,5 @@ sealed class HomeState {
     ) : HomeState()
     data class Error(
         val message: String
-    ) : HomeState()}
+    ) : HomeState()
+}

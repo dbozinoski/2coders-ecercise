@@ -4,8 +4,11 @@ import com.example.tmdbexercise.data.model.Movie
 
 sealed class DetailsState {
     object Loading : DetailsState()
-    data class Success (
+    data class Success(
         val movie: Movie
-    ): DetailsState()
-    data class Error(val message: String) : DetailsState()
+    ) : DetailsState()
+
+    data class Error(
+        val message: String
+    ) : DetailsState()
 }

@@ -14,7 +14,6 @@ import com.example.tmdbexercise.domain.usecase.GetMoviesFromDBUseCase
 import com.example.tmdbexercise.domain.usecase.RemoveMovieFromDBUseCase
 import com.example.tmdbexercise.domain.usecase.SaveMovieToDBUseCase
 import com.example.tmdbexercise.ui.home.HomeState
-import com.example.tmdbexercise.ui.home.fakeMovieFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,12 +32,15 @@ class DetailsViewModel @Inject constructor(
 ) : ViewModel(){
     private val TAG = "HomeViewModel"
 
+    // State to hold the args passed to the screen
     private val _args = MutableStateFlow<DetailsScreen>(savedStateHandle.toRoute<DetailsScreen>())
     val args: StateFlow<DetailsScreen> = _args.asStateFlow()
 
+    // State to hold the current state
     private val _state = MutableStateFlow<DetailsState>(DetailsState.Loading)
     val state: StateFlow<DetailsState> = _state.asStateFlow()
 
+    // State to hold isFavorite flag
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
@@ -68,6 +70,7 @@ class DetailsViewModel @Inject constructor(
 
     }
 
+    //Save Movie to DB
     fun saveMovie(movie: Movie){
         viewModelScope.launch{
             saveMovieToDBUseCase.saveMovieToDb(movie)
@@ -75,6 +78,7 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
+    //Remove Movie from DB
     fun removeMovieFromFavourites(movieId: Int){
         viewModelScope.launch{
             removeMovieFromDBUseCase.removeMovieFromDB(movieId)
@@ -82,6 +86,7 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
+    //Check if Movie is in DB
     fun isMovieFavorite(movieId: Int): Boolean{
         viewModelScope.launch{
             val favouriteMovies = getMoviesFromDBUseCase.getMoviesFromDB()

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,7 +46,6 @@ import com.example.tmdbexercise.common.Constants
 import com.example.tmdbexercise.common.LoadingItem
 import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.MovieList
-import com.example.tmdbexercise.ui.details.DetailsState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -135,10 +136,12 @@ fun HomeContent(
                                 .weight(1.0f)
                                 .fillMaxHeight()
                                 .align(Alignment.CenterVertically)
-                                .padding(start = 16.dp),
+                                .padding(start = 16.dp)
+                                .clip(RoundedCornerShape(10.dp)),
                             model = "${Constants.POSTER_URL}${movie?.posterPath}",
                             contentDescription = movie?.title,
-                            alignment = Alignment.Center
+                            alignment = Alignment.Center,
+
                         )
                         Column(
                             modifier = Modifier
