@@ -156,13 +156,67 @@ fun DetailsContent(
                     model = "${Constants.POSTER_URL}${movie.posterPath}",
                     contentDescription = movie.title
                 )
-                Text(
+                Column(
                     modifier = Modifier
                         .padding(top = 20.dp)
-                        .align(Alignment.CenterHorizontally),
-                    text = movie.overview ?: stringResource(R.string.no_description_available),
-                    textAlign = TextAlign.Justify
+                        .align(Alignment.Start)
                 )
+                {
+                    Text(
+                        modifier = Modifier.padding(end = 16.dp),
+                        text = stringResource(R.string.details_overview_text),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        modifier = Modifier.padding(top = 16.dp),
+                        text = movie.overview ?: stringResource(R.string.no_description_available),
+                        textAlign = TextAlign.Justify
+                    )
+
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .align(Alignment.Start)
+                ){
+                    Text(
+                        modifier = Modifier.padding(end = 5.dp),
+                        text = stringResource(R.string.details_release_date_text),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = movie.releaseDate ?: stringResource(R.string.no_release_date_available)
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .align(Alignment.Start)
+                ){
+                    Text(
+                        modifier = Modifier.padding(end = 5.dp),
+                        text = stringResource(R.string.details_rating_text),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = movie.rating.toString()
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .align(Alignment.Start)
+                ){
+                    Text(
+                        modifier = Modifier.padding(end = 5.dp),
+                        text = stringResource(R.string.details_votes_text),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = movie.votes.toString()
+                    )
+                }
+
             }
         }
 
@@ -194,7 +248,10 @@ fun DetailsContent(
                     Text(text = stringResource(R.string.error_alert_dialog_title))
                 },
                 text = {
-                    Text(text = (state as? DetailsState.Error)?.message ?: stringResource(R.string.error_alert_dialog_description))
+                    Text(
+                        text = (state as? DetailsState.Error)?.message
+                            ?: stringResource(R.string.error_alert_dialog_description)
+                    )
                 },
                 confirmButton = {
                     Button(

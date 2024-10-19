@@ -13,4 +13,9 @@
     <string name="no_description_available">No description available</string>
     <string name="details_screen_title">Movie Details</string>
     <string name="home_screen_title">Popular Movies</string>
+    <string name="details_overview_text">Overview:</string>
+    <string name="details_release_date_text">Release Date: </string>
+    <string name="no_release_date_available">No release date available</string>
+    <string name="details_rating_text">Rating: </string>
+    <string name="details_votes_text">Votes: </string>
 </resources>
