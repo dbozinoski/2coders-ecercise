@@ -11,3 +11,8 @@ data class HomeScreen(
 data class DetailsScreen(
     val movieId: Int
 )
+
+@Serializable
+data class SearchScreen(
+    val title: String
+)

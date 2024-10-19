@@ -5,7 +5,11 @@ import com.example.tmdbexercise.common.Constants
 import com.example.tmdbexercise.data.datasource.api.ApiService
 import com.example.tmdbexercise.data.datasource.api.paging.MoviePagingSource
 import com.example.tmdbexercise.data.datasource.api.exception.ApiResponseHandler
+import com.example.tmdbexercise.data.datasource.api.paging.SearchMoviePagingSource
+import com.example.tmdbexercise.data.datasource.api.paging.SearchResultPagingSource
+import com.example.tmdbexercise.data.datasource.api.paging.SearchTvPagingSource
 import com.example.tmdbexercise.data.model.Movie
+import com.example.tmdbexercise.data.model.TV
 import com.example.tmdbexercise.data.repository.datasource.FavouriteMovieLocalDataSource
 import com.example.tmdbexercise.domain.repository.MovieRepository
 import javax.inject.Inject
@@ -42,6 +46,14 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMoviesFromDB(): List<Movie> {
         return favouriteMovieLocalDataSource.getMoviesFromDB()
+    }
+
+    override fun searchMovie(keyWord: String): PagingSource<Int, Movie> {
+        return SearchMoviePagingSource(apiService, keyWord)
+    }
+
+    override fun searchTv(keyWord: String): PagingSource<Int, TV> {
+        return SearchTvPagingSource(apiService, keyWord)
     }
 
 

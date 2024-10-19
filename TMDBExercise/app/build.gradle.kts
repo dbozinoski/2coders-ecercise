@@ -40,6 +40,10 @@ android {
     buildFeatures {
         compose = true
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
+    }
 }
 
 dependencies {
@@ -65,6 +69,11 @@ dependencies {
     implementation(libs.converterGson)
     implementation(libs.loggingInterceptor)
     implementation(libs.hilt)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+    implementation (libs.androidx.runtime.livedata)
+    implementation (libs.glide.compose)
     kapt(libs.hiltCompiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation.compose)
@@ -75,10 +84,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.coil.compose)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
-    implementation (libs.androidx.runtime.livedata)
 
 }

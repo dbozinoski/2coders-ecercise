@@ -30,7 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil3.compose.AsyncImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 
 @Composable
 fun DetailsScreen(
@@ -43,6 +44,7 @@ fun DetailsScreen(
     )
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun DetailsContent(
     state: DetailsState,
@@ -116,13 +118,20 @@ fun DetailsContent(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(movie.title ?: "")
-                AsyncImage(
+                GlideImage(
                     modifier = Modifier
                         .height(100.dp)
                         .width(100.dp),
                     model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                     contentDescription = movie.title
                 )
+//                AsyncImage(
+//                    modifier = Modifier
+//                        .height(100.dp)
+//                        .width(100.dp),
+//                    model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+//                    contentDescription = movie.title
+//                )
                 Text(movie.overview ?: "")
             }
         }
