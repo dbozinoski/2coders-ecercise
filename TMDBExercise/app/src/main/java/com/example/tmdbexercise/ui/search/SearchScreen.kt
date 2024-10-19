@@ -1,6 +1,7 @@
 package com.example.tmdbexercise.ui.search
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -105,16 +108,40 @@ fun SearchContent(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        // Top row with screen title
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(top = 26.dp, start = 16.dp, end = 16.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            IconButton(
-                onClick = {}
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically)
+            )
+            Box(
+                modifier = Modifier
+                    .weight(3.0f)
+                    .align(Alignment.CenterVertically)
             ) {
-                Icon(Icons.Default.Search, contentDescription = "Search")
+                Text(
+                    text = "Search",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically),
+            ) {
+                IconButton(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    onClick = {},
+                    enabled = false
+                ) {}
             }
         }
 

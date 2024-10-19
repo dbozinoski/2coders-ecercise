@@ -27,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,13 +77,37 @@ fun HomeContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(top = 26.dp, start = 16.dp, end = 16.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            IconButton(
-                onClick = {navToSearch(0)}
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically)
+            )
+            Box(
+                modifier = Modifier
+                    .weight(3.0f)
+                    .align(Alignment.CenterVertically)
             ) {
-                Icon(Icons.Default.Search, contentDescription = "Search")
+                Text(
+                    text = "Popular Movies",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically),
+            ) {
+                IconButton(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    onClick = { navToSearch(0) }
+                ) {
+                    Icon(Icons.Default.Search, contentDescription = "Search")
+                }
             }
         }
 
@@ -205,37 +228,78 @@ fun fakeMovieFlow(): Flow<PagingData<Movie>> {
     return flowOf(PagingData.from(movies))
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//
+//    HomeContent(
+//        state = HomeState.Success(
+//            data = MovieList(
+//                movies = listOf(
+//                    Movie(
+//                        id = 1,
+//                        overview = "Overview",
+//                        posterPath = "",
+//                        title = "",
+//                        releaseDate = ""
+//                    ),
+//                    Movie(
+//                        id = 1,
+//                        overview = "Overview",
+//                        posterPath = "",
+//                        title = "",
+//                        releaseDate = ""
+//                    )
+//                ),
+//                page = 1,
+//                totalPages = 1,
+//                totalResults = 10
+//            )
+//        ),
+//        navToDetails = {},
+//        movies = fakeMovieFlow().collectAsLazyPagingItems(),
+//        navToSearch = {}
+//    )
+//}
 
-    HomeContent(
-        state = HomeState.Success(
-            data = MovieList(
-                movies = listOf(
-                    Movie(
-                        id = 1,
-                        overview = "Overview",
-                        posterPath = "",
-                        title = "",
-                        releaseDate = ""
-                    ),
-                    Movie(
-                        id = 1,
-                        overview = "Overview",
-                        posterPath = "",
-                        title = "",
-                        releaseDate = ""
-                    )
-                ),
-                page = 1,
-                totalPages = 1,
-                totalResults = 10
+@Preview
+@Composable
+fun RowPreview(){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1.0f)
+                .align(Alignment.CenterVertically)
+        )
+        Box(
+            modifier = Modifier
+                .weight(3.0f)
+                .align(Alignment.CenterVertically)
+        ) {
+            Text(
+                text = "Popular Movies",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.Center)
             )
-        ),
-        navToDetails = {},
-        movies = fakeMovieFlow().collectAsLazyPagingItems(),
-        navToSearch = {}
-    )
+        }
+        Box(
+            modifier = Modifier
+                .weight(1.0f)
+                .align(Alignment.CenterVertically),
+        ) {
+            IconButton(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                onClick = {}
+            ) {
+                Icon(Icons.Default.Search, contentDescription = "Search")
+            }
+        }
+    }
 }
 

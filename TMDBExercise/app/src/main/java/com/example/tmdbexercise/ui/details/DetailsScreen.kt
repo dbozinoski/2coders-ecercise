@@ -77,15 +77,37 @@ fun DetailsContent(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Top row with favorite and search buttons
+        // Top row with favorite button
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(top = 26.dp, start = 16.dp, end = 16.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            Column {
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically)
+            )
+            Box(
+                modifier = Modifier
+                    .weight(3.0f)
+                    .align(Alignment.CenterVertically)
+            ) {
+                Text(
+                    text = "Movie Details",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically),
+            ) {
                 IconButton(
+                    modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = {
                         if (movie != null) {
                             if (isFavorite) {
@@ -106,13 +128,6 @@ fun DetailsContent(
                     )
                 }
             }
-//            Column {
-//                IconButton(
-//                    onClick = {}
-//                ) {
-//                    Icon(Icons.Default.Search, contentDescription = "Search")
-//                }
-//            }
         }
 
         // If movie is available, display its details
