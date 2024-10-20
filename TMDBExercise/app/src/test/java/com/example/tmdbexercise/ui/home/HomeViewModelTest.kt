@@ -21,16 +21,16 @@ class HomeViewModelTest {
     // A test dispatcher to run coroutines in a controlled way
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    // Step 1: Create a sample list of movies
+    // A sample list of movies
     val movieList = listOf(
         Movie(1, "Overview 1", "PosterPath 1", "Title 1", "ReleaseDate 1", 8.5, 100),
         Movie(2, "Overview 2", "PosterPath 2", "Title 2", "ReleaseDate 2", 7.9, 200)
     )
 
-    // Step 2: Convert the list to PagingData using PagingData.from()
+    // Converting the list to PagingData using PagingData.from()
     val mockPagingData = PagingData.from(movieList)
 
-    // Step 3: Mock the Flow<PagingData<Movie>> to return the mockPagingData
+    // Mocking the Flow<PagingData<Movie>> to return the mockPagingData
     val mockFlow: Flow<PagingData<Movie>> = flowOf(mockPagingData)
 
     private val mockUseCase = mockk<GetMoviesUseCase>(relaxed = true) {
