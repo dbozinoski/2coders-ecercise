@@ -44,6 +44,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.1.1"
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -78,6 +82,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation.compose)
     testImplementation(libs.junit)
+    // Coroutine testing
+    testImplementation(libs.kotlinx.coroutines.test)
+    // Paging library
+    testImplementation(libs.androidx.paging.common)
+    // Mocking framework
+    testImplementation(libs.mockk)
+    // Turbine for Flow testing
+    testImplementation(libs.app.turbine)
+    testImplementation(libs.androidx.paging.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

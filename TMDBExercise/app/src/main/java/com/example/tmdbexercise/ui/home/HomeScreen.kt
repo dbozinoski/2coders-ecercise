@@ -48,6 +48,8 @@ import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.MovieList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import java.util.Collections.list
+import kotlin.random.Random
 
 @Composable
 fun HomeScreen(
@@ -123,7 +125,7 @@ fun HomeContent(
         ) {
             items(
                 count = movies.itemCount,
-                key = movies.itemKey { it.id }
+                key = movies.itemKey { it.id+ Random.nextInt() }
             ) { index ->
                 val movie = movies[index]
                 Card(
