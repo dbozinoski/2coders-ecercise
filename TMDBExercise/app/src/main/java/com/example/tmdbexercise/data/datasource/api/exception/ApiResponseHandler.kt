@@ -11,7 +11,7 @@ class ApiResponseHandler {
             // Get the response code
             val statusCode = response.code()
 
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful) {
                 when (statusCode) {
                     200 -> {
                         val body = response.body()
