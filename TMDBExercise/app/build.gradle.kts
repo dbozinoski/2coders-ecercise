@@ -91,6 +91,12 @@ dependencies {
     // Turbine for Flow testing
     testImplementation(libs.app.turbine)
     testImplementation(libs.androidx.paging.testing)
+    // Coroutines Test
+    testImplementation (libs.kotlinx.coroutines.test)
+    // For LiveData testing
+    testImplementation (libs.androidx.core.testing)
+    // For Truth (Google's assertion library)
+    testImplementation (libs.google.truth)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

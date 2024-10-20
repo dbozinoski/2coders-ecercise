@@ -1,6 +1,8 @@
 [versions]
 agp = "8.7.1"
 composeVersion = "1.0.0-beta01"
+coreTesting = "2.2.0"
+googleTruth = "1.1.5"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -31,6 +33,7 @@ turbineVersion = "0.12.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-lifecycle-livedata-compose = { module = "androidx.lifecycle:lifecycle-livedata-compose", version.ref = "lifecycleLivedataCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleLivedataCompose" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
@@ -42,6 +45,7 @@ androidx-paging-testing = { module = "androidx.paging:paging-testing", version.r
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedata" }
 app-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "composeVersion" }
+google-truth = { module = "com.google.truth:truth", version.ref = "googleTruth" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

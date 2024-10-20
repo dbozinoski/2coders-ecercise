@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.tmdbexercise.R
@@ -69,7 +70,7 @@ fun DetailsContent(
     }
 
     // Observe the isFavorite LiveData from the ViewModel
-    val isFavorite by viewModel.isFavorite.observeAsState(initial = false)
+    val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
 
     // Check if the movie is already a favorite using LaunchedEffect
     LaunchedEffect(movie) {

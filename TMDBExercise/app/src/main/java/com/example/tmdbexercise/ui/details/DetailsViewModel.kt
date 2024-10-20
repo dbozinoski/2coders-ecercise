@@ -41,14 +41,14 @@ class DetailsViewModel @Inject constructor(
     val state: StateFlow<DetailsState> = _state.asStateFlow()
 
     // State to hold isFavorite flag
-    private val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite: LiveData<Boolean> get() = _isFavorite
+    private val _isFavorite = MutableStateFlow<Boolean>(false)
+    val isFavorite = _isFavorite.asStateFlow()
 
     init {
         getMovie()
     }
 
-    private fun getMovie(){
+    fun getMovie(){
         viewModelScope.launch {
             try {
                 val result = movieUseCase.execute(args.value.movieId)
