@@ -1,25 +1,20 @@
-package com.example.tmdbexercise.search
+package com.example.tmdbexercise.ui.search
 
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
-import androidx.paging.testing.asSnapshot
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
-import androidx.room.util.query
 import app.cash.turbine.test
 import com.example.tmdbexercise.data.datasource.api.paging.SearchResult
 import com.example.tmdbexercise.data.model.Movie
 import com.example.tmdbexercise.data.model.TV
 import com.example.tmdbexercise.domain.usecase.SearchMoviesUseCase
-import com.example.tmdbexercise.ui.search.SearchViewModel
-import com.example.tmdbexercise.ui.search.SearchViewModel.SearchType
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -99,8 +94,13 @@ class SearchViewModelTest {
         }
     }
 
-}
+    @Test
+    fun `initial state is Initial`() = runTest {
+        // Assert that the initial state of the ViewModel is Loading
+        assertEquals(SearchState.Initial, searchViewModel.state.value)
+    }
 
+}
 
 class SearchResultDiffCallback : DiffUtil.ItemCallback<SearchResult>() {
     override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
