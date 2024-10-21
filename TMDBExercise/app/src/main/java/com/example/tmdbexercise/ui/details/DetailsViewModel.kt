@@ -87,16 +87,14 @@ class DetailsViewModel @Inject constructor(
     }
 
     //Check if Movie is in DB
-    fun isMovieFavorite(movieId: Int): Boolean{
+    fun isMovieFavorite(movieId: Int){
         viewModelScope.launch{
             val favouriteMovies = getMoviesFromDBUseCase.getMoviesFromDB()
             for(movie in favouriteMovies){
                 if(movie.id == movieId){
                     _isFavorite.value = true
-                    true
                 }
             }
         }
-        return false
     }
 }

@@ -8,18 +8,7 @@ class GetMovieUseCase @Inject constructor(
     private val moviesRepository: MovieRepository
 ) {
     suspend fun execute(movieId: Int): Result<Movie>? {
-
-        val result = moviesRepository.getMovie(movieId)
-
-        result?.fold(
-            onSuccess = { response ->
-                response
-            },
-            onFailure = { exception ->
-            }
-        )
-
-        return result
+        return moviesRepository.getMovie(movieId)
     }
 
 }
