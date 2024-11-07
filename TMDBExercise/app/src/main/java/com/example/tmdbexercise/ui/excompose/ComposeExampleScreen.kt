@@ -77,6 +77,7 @@ fun ComposeExampleContent(
     val pageCount = movies.itemCount // total number of pages
     var showErrorDialog by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState { pageCount }
+    println("Pager Count $pageCount")
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -121,7 +122,7 @@ fun ComposeExampleContent(
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxWidth(),
-            pageSpacing = 10.dp
+            pageSpacing = 10.dp,
         ) { page ->
             val movie = remember { movies[page] }
             Card(

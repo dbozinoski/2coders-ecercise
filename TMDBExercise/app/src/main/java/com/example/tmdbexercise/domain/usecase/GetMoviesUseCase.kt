@@ -14,10 +14,7 @@ class GetMoviesUseCase @Inject constructor(
     operator fun invoke(pageSize: Int = 30): Flow<PagingData<Movie>> {
         return Pager(
             config = PagingConfig(
-                prefetchDistance = 2,
-                pageSize = pageSize,
-                enablePlaceholders = false,
-                maxSize = pageSize * 3
+                pageSize = pageSize
             ),
             pagingSourceFactory = { moviesRepository.getMovies() }
         ).flow
