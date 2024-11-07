@@ -26,7 +26,7 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v4
         with:
-          path: ./TMDBExercise/
+          path: ./TMDBExercise
         
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -39,4 +39,4 @@ jobs:
 
       - name: Run ktlint
         run: ./gradlew ktlintCheck
-        working-directory: ./TMDBExercise/
+        working-directory: ./TMDBExercise
