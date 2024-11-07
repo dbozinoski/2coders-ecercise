@@ -18,8 +18,8 @@ class MoviePagingSource(
                 val responseBody = response.body()
                 LoadResult.Page(
                     data = responseBody?.movies ?: listOf(),
-                    prevKey = if (currentPage == 1) null else currentPage - 1,
-                    nextKey = if ((responseBody?.page ?: -1) < (responseBody?.totalPages ?: -1)) (responseBody?.page ?: -1) + 1 else null
+                    prevKey = if (currentPage == 1) 0 else currentPage - 1,
+                    nextKey = if (currentPage < (responseBody?.totalPages ?: 0)) currentPage + 1 else 0
                 )
             } else {
                 LoadResult.Error(Exception("Invalid response type"))

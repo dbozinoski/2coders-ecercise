@@ -81,6 +81,7 @@ dependencies {
     kapt(libs.hiltCompiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.foundation)
     testImplementation(libs.junit)
     // Coroutine testing
     testImplementation(libs.kotlinx.coroutines.test)
