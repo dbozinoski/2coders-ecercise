@@ -100,6 +100,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.foundation)
+    implementation(libs.ktlint)
     testImplementation(libs.junit)
     // Coroutine testing
     testImplementation(libs.kotlinx.coroutines.test)
