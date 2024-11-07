@@ -29,10 +29,13 @@ jobs:
           java-version: '17' # specify your project's Java version
 
       - name: Make gradlew executable
-        run: chmod +x TMDBExercise/gradlew
+        run: chmod +x gradlew
+        working-directory: TMDBExercise
 
       - name: Install dependencies
-        run: TMDBExercise/gradlew dependencies
+        run: ./gradlew dependencies
+        working-directory: TMDBExercise
 
       - name: Run ktlint
-        run: TMDBExercise/gradlew ktlintCheck
+        run: ./gradlew ktlintCheck
+        working-directory: TMDBExercise
