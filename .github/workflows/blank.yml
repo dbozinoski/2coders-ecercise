@@ -24,8 +24,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out the code
-      - uses: actions/checkout@v4
-      
+        uses: actions/checkout@v4
+        with:
+          path: ./TMDBExercise/
+        
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -33,7 +35,7 @@ jobs:
           java-version: '17' # specify your project's Java version
 
       - name: Install dependencies
-        run: /TMDBExercise/gradlew dependencies
+        run: ./TMDBExercise/gradlew dependencies
 
       - name: Run ktlint
         run: ./gradlew ktlintCheck
