@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tmdbexercise.common.ComposeExampleScreen
 import com.example.tmdbexercise.common.DetailsScreen
 import com.example.tmdbexercise.common.HomeScreen
 import com.example.tmdbexercise.common.SearchScreen
@@ -17,6 +18,7 @@ import com.example.tmdbexercise.ui.details.DetailsScreen
 import com.example.tmdbexercise.ui.home.HomeScreen
 import com.example.tmdbexercise.ui.search.SearchScreen
 import com.example.tmdbexercise.ui.theme.TMDBExerciseTheme
+import com.example.tmdbexercise.ui.excompose.ComposeExampleScreen;
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,9 +35,13 @@ class MainActivity : ComponentActivity() {
                         composable<HomeScreen> {
                             HomeScreen(
                                 navToDetails = { movieId ->
-                                navController.navigate(DetailsScreen(movieId))},
+                                    navController.navigate(DetailsScreen(movieId))
+                                },
                                 navToSearch = {
                                     navController.navigate(SearchScreen(""))
+                                },
+                                navToComposeExamples = {
+                                    navController.navigate(ComposeExampleScreen(""))
                                 }
                             )
                         }
@@ -46,6 +52,16 @@ class MainActivity : ComponentActivity() {
                             SearchScreen(navToDetails = { movieId ->
                                 navController.navigate(DetailsScreen(movieId))
                             })
+                        }
+                        composable<ComposeExampleScreen> {
+                            ComposeExampleScreen(
+                                navToDetails = { movieId ->
+                                    navController.navigate(DetailsScreen(movieId))
+                                },
+                                navToSearch = {
+                                    navController.navigate(SearchScreen(""))
+                                }
+                            )
                         }
                     }
                 }

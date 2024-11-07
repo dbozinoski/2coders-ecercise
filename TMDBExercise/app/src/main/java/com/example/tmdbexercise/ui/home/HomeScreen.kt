@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -55,6 +56,7 @@ import kotlin.random.Random
 fun HomeScreen(
     navToDetails: (Int) -> Unit,
     navToSearch: (Int) -> Unit,
+    navToComposeExamples: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -63,7 +65,8 @@ fun HomeScreen(
         state = state,
         navToDetails = navToDetails,
         movies = movies,
-        navToSearch = navToSearch
+        navToSearch = navToSearch,
+        navToComposeExamples = navToComposeExamples
     )
 }
 
@@ -73,7 +76,8 @@ fun HomeContent(
     state: HomeState,
     movies: LazyPagingItems<Movie>,
     navToDetails: (Int) -> Unit,
-    navToSearch: (Int) -> Unit
+    navToSearch: (Int) -> Unit,
+    navToComposeExamples: (String) -> Unit,
 ) {
     var showErrorDialog by remember { mutableStateOf(false) }
 
@@ -113,6 +117,19 @@ fun HomeContent(
                     onClick = { navToSearch(0) }
                 ) {
                     Icon(Icons.Default.Search, contentDescription = "Search")
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .align(Alignment.CenterVertically),
+            ) {
+                IconButton(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    onClick = {navToComposeExamples("")}
+                ) {
+                    Icon(Icons.Default.Build, contentDescription = "Compose")
                 }
             }
         }
@@ -272,7 +289,8 @@ fun HomeScreenPreview() {
         ),
         navToDetails = {},
         movies = fakeMovieFlow().collectAsLazyPagingItems(),
-        navToSearch = {}
+        navToSearch = {},
+        navToComposeExamples = {}
     )
 }
 
@@ -312,6 +330,19 @@ fun RowPreview(){
                 onClick = {}
             ) {
                 Icon(Icons.Default.Search, contentDescription = "Search")
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .weight(1.0f)
+                .align(Alignment.CenterVertically),
+        ) {
+            IconButton(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                onClick = {}
+            ) {
+                Icon(Icons.Default.Build, contentDescription = "Compose")
             }
         }
     }

@@ -16,3 +16,8 @@ data class DetailsScreen(
 data class SearchScreen(
     val title: String
 )
+
+@Serializable
+data class ComposeExampleScreen(
+    val title: String
+)
