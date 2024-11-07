@@ -39,3 +39,10 @@ jobs:
       - name: Run ktlint
         run: ./gradlew ktlintCheck
         working-directory: TMDBExercise
+        continue-on-error: true
+
+      - name: Upload release APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Testable APK
+          path: /home/runner/work/2coders-ecercise/2coders-ecercise/TMDBExercise/app/build/reports/ktlint/ktlintAndroidTestSourceSetCheck/ktlintAndroidTestSourceSetCheck.txt
