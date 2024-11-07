@@ -15,28 +15,26 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out the code
         uses: actions/checkout@v4
-        with:
-          path: ./TMDBExercise
-        
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17' # specify your project's Java version
 
+      - name: Make gradlew executable
+        run: chmod +x ./TMDBExercise/gradlew
+
       - name: Install dependencies
         run: ./TMDBExercise/gradlew dependencies
+        working-directory: ./TMDBExercise
 
       - name: Run ktlint
-        run: ./gradlew ktlintCheck
+        run: ./TMDBExercise/gradlew ktlintCheck
         working-directory: ./TMDBExercise
