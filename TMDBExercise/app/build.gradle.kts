@@ -11,7 +11,8 @@ plugins {
 }
 
 ktlint {
-    version.set(libs.versions.ktlint.get()) // pulls the version from the catalog
+//    version.set(libs.versions.ktlint.get()) // pulls the version from the catalog
+    version.set("0.49.1") // pulls the version from the catalog
     android.set(true) // Enable Android-specific rules
     outputColorName.set("RED") // Optional, to color output in logs
 }
